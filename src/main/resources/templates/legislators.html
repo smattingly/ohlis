@@ -1,0 +1,30 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Legislators</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <h1>Legislators</h1>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Hometown</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="legislator: ${legislators}">
+            <td th:id="${legislator.getId()}" th:text="${legislator.getId()}" />
+            <td th:text="${legislator.getFirstName()}" />
+            <td th:text="${legislator.getLastName()}" />
+            <td th:text="${legislator.getHometown()}" />
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Create a new Legislator record</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <h1>Create a new Legislator record</h1>
+    <main>
+      <p>All data values are required.</p>
+      <form method="POST" action="/legislators">
+        <div>
+          <label for="firstName">First Name:</label>
+          <input
+            required
+            type="text"
+            id="firstName"
+            name="firstName"
+            autofocus
+          />
+        </div>
+        <div>
+          <label for="lastName">Last Name:</label>
+          <input required type="text" id="lastName" name="lastName" />
+        </div>
+        <div>
+          <label for="hometown">Hometown:</label>
+          <input required type="text" id="hometown" name="hometown" />
+        </div>
+        <div>
+          <input id="submit" type="submit" value="Submit" />
+        </div>
+      </form>
+    </main>
+    <script src="/legislators-create-form.js"></script>
+  </body>
+</html>
