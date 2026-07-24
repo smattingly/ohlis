@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <th:block th:insert="~{fragments/general.html :: head}"></th:block>
     <link
@@ -9,23 +9,28 @@
     <title>Legislators</title>
   </head>
   <body class="container-fluid">
-    <div class="d-flex justify-content-between">
-      <div>
-        <h1>Legislators</h1>
-      </div>
-      <div>
-        <a href="/legislators/new" aria-label="Create a new Legislator record">
-          <i
-            class="fa fa-plus-circle"
-            style="font-size: 48px; color: black"
-            data-toggle="tooltip"
-            data-placement="right"
-            title="Create a new Legislator record"
+    <header>
+      <div class="d-flex justify-content-between">
+        <div>
+          <h1>Legislators</h1>
+        </div>
+        <div>
+          <a
+            href="/legislators/new"
+            aria-label="Create a new Legislator record"
           >
-          </i>
-        </a>
+            <i
+              class="fa fa-plus-circle"
+              style="font-size: 48px; color: black"
+              data-toggle="tooltip"
+              data-placement="right"
+              title="Create a new Legislator record"
+            >
+            </i>
+          </a>
+        </div>
       </div>
-    </div>
+    </header>
     <main>
       <table class="table table-striped table-bordered m1">
         <thead>
