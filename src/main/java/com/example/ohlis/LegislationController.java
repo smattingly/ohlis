@@ -74,6 +74,11 @@ public class LegislationController {
       }
       List<Legislator> sponsors = (sponsorIdStrings == null ? new ArrayList<Legislator>()
           : legislatorRepo.findByIdIn(sponsorIds));
+      int submittedSponsorCount = (sponsorIdStrings == null ? 0 : sponsorIdStrings.size());
+      if (sponsors.size() != submittedSponsorCount) {
+        // Each submitted sponsor ID should be for a valid Legislator.
+        throw new Exception();
+      }
 
       // Create new Legislation record, and any associated sponsorship records.
       Legislation newLegislation = legislationRepo.save(new Legislation(title, text, sponsors));
