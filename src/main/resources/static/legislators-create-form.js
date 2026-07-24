@@ -6,8 +6,7 @@
     for (const input of inputFields) {
       if (input.value.trim().length == 0) {
         event.preventDefault();
-        // TODO improve this with CSS framework.
-        alert("All data values are required.");
+        showBanner("All data values are required.", "danger");
         break;
       }
     }

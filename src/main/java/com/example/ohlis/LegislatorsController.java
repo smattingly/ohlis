@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,10 +32,20 @@ public class LegislatorsController {
   }
 
   @GetMapping()
-  public String getAll(Model model) {
+  public String getAll(Model model, HttpServletRequest request) {
     // List all records using template.
     List<Legislator> list = legislatorRepo.findAll();
     model.addAttribute("legislators", list);
+
+    // Extract newly created ID, if any, from query string so that view can
+    // highlight it.
+    Long newId = Long.valueOf(-1); // Default: will not match any record.
+    try {
+      newId = Long.valueOf(request.getQueryString());
+    } catch (Exception e) {
+      // When query is non-existent or non-numeric, keep default value.
+    }
+    model.addAttribute("newId", newId);
     return "legislators";
   }
 
@@ -65,9 +73,13 @@ public class LegislatorsController {
       Legislator newLegislator = legislatorRepo.save(new Legislator(firstName, lastName, hometown));
       log.info("Created new legislator with ID {}", newLegislator.getId());
 
-      // Build Location URI to Legislators page, with anchor for new Legislator data.
-      headers.add("Location", UriComponentsBuilder.fromUriString(request.getRequestURI())
-          .fragment(String.format("%d", newLegislator.getId())).toUriString());
+      // Build Location URI to Legislation page, with new Legislaion ID as
+      // 1) anchor for browser use and
+      // 2) query string for server use.
+      String location = UriComponentsBuilder.fromUriString(request.getRequestURI())
+          .query(newLegislator.getId().toString())
+          .fragment(String.format("%d", newLegislator.getId())).toUriString();
+      headers.add("Location", location);
     } catch (Exception e) {
       result = HttpStatus.BAD_REQUEST;
     }

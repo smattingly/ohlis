@@ -38,7 +38,17 @@
         </thead>
         <tbody>
           <tr th:each="legislator: ${legislators}">
-            <td th:id="${legislator.getId()}" th:text="${legislator.getId()}" />
+            <td
+              th:unless="${newId.compareTo(legislator.getId()) == 0}"
+              th:id="${legislator.getId()}"
+              th:text="${legislator.getId()}"
+            />
+            <td
+              th:if="${newId.compareTo(legislator.getId()) == 0}"
+              th:id="${legislator.getId()}"
+              th:text="${legislator.getId()}"
+              th:class="table-info"
+            />
             <td th:text="${legislator.getFirstName()}" />
             <td th:text="${legislator.getLastName()}" />
             <td th:text="${legislator.getHometown()}" />

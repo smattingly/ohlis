@@ -13,4 +13,49 @@
       crossorigin="anonymous"
     />
   </head>
+  <body>
+    <div
+      th:fragment="banner"
+      id="banner"
+      style="display: none"
+      class="alert alert-dismissible fade show"
+      role="alert"
+    >
+      <button
+        type="button"
+        onclick="closeBanner()"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+      <script>
+        function closeBanner() {
+          const message = document.getElementById("banner-message");
+          if (!message) return;
+          message.remove();
+          const banner = document.getElementById("banner");
+          banner.classList.remove(
+            "alert-primary",
+            "alert-secondary",
+            "alert-success",
+            "alert-danger",
+            "alert-warning",
+            "alert-info",
+            "alert-light",
+            "alert-dark",
+          );
+          banner.style.display = "none";
+        }
+
+        function showBanner(message, type) {
+          closeBanner();
+          type = type || "info";
+          const banner = document.getElementById("banner");
+          banner.innerHTML += `<div id="banner-message">${message}</div>`;
+          banner.classList.add(`alert-${type}`);
+          banner.style.display = "block";
+        }
+      </script>
+    </div>
+  </body>
 </html>

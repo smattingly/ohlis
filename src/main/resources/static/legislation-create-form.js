@@ -7,8 +7,7 @@
       const input = document.getElementById(inputId.toLowerCase());
       if (input.value.trim().length == 0) {
         event.preventDefault();
-        // TODO improve this with CSS framework.
-        alert(`A value for ${inputId} is required.`);
+        showBanner(`A value for ${inputId} is required.`, "danger");
         break;
       }
     }

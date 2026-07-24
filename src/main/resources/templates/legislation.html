@@ -38,7 +38,17 @@
         </thead>
         <tbody>
           <tr th:each="bill: ${legislation}">
-            <td th:id="${bill.getId()}" th:text="${bill.getId()}" />
+            <td
+              th:unless="${newId.compareTo(bill.getId()) == 0}"
+              th:id="${bill.getId()}"
+              th:text="${bill.getId()}"
+            />
+            <td
+              th:if="${newId.compareTo(bill.getId()) == 0}"
+              th:id="${bill.getId()}"
+              th:text="${bill.getId()}"
+              th:class="table-info"
+            />
             <td th:text="${bill.getTitle()}" />
             <td th:text="${bill.getText()}" />
             <td>
