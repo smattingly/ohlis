@@ -6,7 +6,7 @@ This Java Spring Boot app serves the following paths on `http://localhost:8080`:
 - `/legislators` lists all Legislator records,
 - `/legislators/new` displays a form to create a new Legislator record,
 - `/legislation` lists all Legislation records,
-- `/legislation/new` displays a form to create a new Legislation record,
+- `/legislation/new` displays a form to create a new Legislation record.
 
 Because of the server-side rendering, I did not create a RESTful API. 
 
@@ -24,4 +24,9 @@ To run the application:
 
 (You may need to install one of these tools if you haven't already.)
 
-To run the Playwright tests: `npx playwright test`. (Node.js is required.)
+To run the Playwright tests:
+1. Node.js 18+ must be installed.
+2. Run `npm install` (once, for setup).
+3. Launch the application, if it is not already running.
+4. Run `npx playwright test`
+
