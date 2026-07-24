@@ -42,13 +42,9 @@ public class LegislatorsController {
   }
 
   @GetMapping(path = "new")
-  public ResponseEntity<Resource> getCreateForm() {
-    // Show the static create form.
-    Resource resource = new ClassPathResource("static/legislators-create-form.html");
-    if (!resource.exists()) {
-      return ResponseEntity.notFound().build();
-    }
-    return ResponseEntity.ok(resource);
+  public String getCreateForm() {
+    // Show the create form.
+    return "legislators-create-form";
   }
 
   @PostMapping(consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
