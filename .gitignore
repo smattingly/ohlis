@@ -17,6 +17,7 @@ bin/
 dependency-reduced-pom.xml
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
 
 # Eclipse Project Files
 
