@@ -1,0 +1,41 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Legislation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <h1>Legislation</h1>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Text</th>
+            <th>Sponsors</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="bill: ${legislation}">
+            <td th:id="${bill.getId()}" th:text="${bill.getId()}" />
+            <td th:text="${bill.getTitle()}" />
+            <td th:text="${bill.getText()}" />
+            <td>
+              <span th:each="sponsor: ${bill.getSponsors()}">
+                <span
+                  th:unless="${sponsor == bill.getSponsors().getLast()}"
+                  th:text="${sponsor.getFullName() + ', '}"
+                />
+                <span
+                  th:if="${sponsor == bill.getSponsors().getLast()}"
+                  th:text="${sponsor.getFullName()}"
+                />
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>

@@ -31,16 +31,6 @@ public class LegislatorsController {
 
   LegislatorsController(LegislatorRepository repo) {
     this.legislatorRepo = repo;
-
-    // Populate some place holder data.
-    legislatorRepo.save(new Legislator("Alice", "Allison", "Athens"));
-    legislatorRepo.save(new Legislator("Bob", "Bobbsy", "Bexley"));
-    legislatorRepo.save(new Legislator("Chris", "Christoph", "Columbus"));
-    legislatorRepo.save(new Legislator("Don", "Donaldson", "Delaware"));
-    legislatorRepo.save(new Legislator("Ed", "Edwards", "Englewood"));
-    legislatorRepo.save(new Legislator("Fran", "Franco", "Fostoria"));
-    legislatorRepo.save(new Legislator("Greta", "Green", "Gallapolis"));
-    legislatorRepo.save(new Legislator("Hank", "Hammond", "Hocking"));
   }
 
   @GetMapping()

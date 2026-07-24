@@ -1,0 +1,36 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Create a new Legislation record</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <h1>Create a new Legislation record</h1>
+    <main>
+      <form method="POST" action="/legislation">
+        <div>
+          <label for="title">Title:</label>
+          <input required type="text" id="title" name="title" autofocus />
+        </div>
+        <div>
+          <label for="text">Text:</label>
+          <textarea required id="text" name="text"></textarea>
+        </div>
+        <div>
+          <label for="sponsors">Sponsors:</label>
+          <select id="sponsors" name="sponsors" multiple>
+            <option
+              th:each="sponsor: ${sponsors}"
+              th:value="${sponsor.getId()}"
+              th:text="${sponsor.getFullName()}"
+            />
+          </select>
+        </div>
+        <div>
+          <input id="submit" type="submit" value="Submit" />
+        </div>
+      </form>
+    </main>
+    <script src="/legislation-create-form.js"></script>
+  </body>
+</html>
