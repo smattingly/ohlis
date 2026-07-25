@@ -3,7 +3,8 @@ import { test, expect } from "@playwright/test";
 test("Given incomplete data, When create is attempted, Then error is shown.", async ({
   page,
 }) => {
-  const url = "http://localhost:8080/legislation/new";
+  const url = "legislation/new";
+
   // Nothing entered
   await page.goto(url);
   await page.getByRole("button", { name: "Create" }).click();

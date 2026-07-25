@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("Given minimal valid inputs, When new legislation is created, Then it appears in the updated list", async ({
   page,
 }) => {
-  await page.goto("http://localhost:8080/legislation/new");
+  await page.goto("legislation/new");
   const newTitle = "new title " + crypto.randomUUID();
   const newText = "new text " + crypto.randomUUID();
   await page.getByRole("textbox", { name: "Title:" }).fill(newTitle);
@@ -16,7 +16,7 @@ test("Given minimal valid inputs, When new legislation is created, Then it appea
 test("Given expanded valid inputs, When new legislation is created, Then it appears in the updated list", async ({
   page,
 }) => {
-  await page.goto("http://localhost:8080/legislation/new");
+  await page.goto("legislation/new");
   const newTitle = "new title " + crypto.randomUUID();
   const newText = "new text " + crypto.randomUUID();
   await page.getByRole("textbox", { name: "Title:" }).fill(newTitle);

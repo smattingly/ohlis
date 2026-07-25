@@ -25,8 +25,6 @@ To run the application:
 (You may need to install one of these tools if you haven't already.)
 
 To run the Playwright tests:
-1. Node.js 18+ must be installed.
-2. Run `npm install` (once, for setup).
-3. Launch the application, if it is not already running.
-4. Run `npx playwright test`
+1. One time setup: `npm install` (Node.js 18+ must be installed.)
+2. Run `npx playwright test`
 

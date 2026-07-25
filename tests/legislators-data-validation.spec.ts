@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("Given incomplete data, When create is attempted, Then error is shown.", async ({
   page,
 }) => {
-  const url = "http://localhost:8080/legislators/new";
+  const url = "legislators/new";
 
   // Nothing entered
   await page.goto(url);
