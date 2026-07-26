@@ -11,7 +11,7 @@
         <div class="col-sm-5">
           <h1>Create a new Legislation record</h1>
           <p>Title and Text are required.</p>
-          <div th:insert="~{fragments/general.html :: banner}"></div>
+          <div id="banner"></div>
           <form method="POST" action="/legislation">
             <div>
               <label for="title">Title:</label>
@@ -57,6 +57,7 @@
         </div>
       </div>
     </main>
+    <script src="/create-error-banner.js"></script>
     <script src="/legislation-create-form.js"></script>
   </body>
 </html>

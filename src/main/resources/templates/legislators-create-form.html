@@ -11,7 +11,7 @@
         <div class="col-sm-5">
           <h1>Create a new Legislator record</h1>
           <p>All data values are required.</p>
-          <div th:insert="~{fragments/general.html :: banner}"></div>
+          <div id="banner"></div>
           <form method="POST" action="/legislators">
             <div>
               <label for="firstName">First Name:</label>
@@ -53,6 +53,7 @@
         </div>
       </div>
     </main>
+    <script src="/create-error-banner.js"></script>
     <script src="/legislators-create-form.js"></script>
   </body>
 </html>

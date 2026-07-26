@@ -40,13 +40,12 @@ public class LegislationController {
     List<Legislation> list = legislationRepo.findAll();
     model.addAttribute("legislation", list);
 
-    // Extract newly created ID, if any, from query string so that view can
-    // highlight it.
-    Long newId = Long.valueOf(-1); // Default: will not match any record.
+    // Extract newly created ID, if any, from query string so that view can use it.
+    Long newId = null;
     try {
       newId = Long.valueOf(request.getQueryString());
     } catch (Exception e) {
-      // When query is non-existent or non-numeric, keep default value.
+      // When query is non-existent or non-numeric, null is ok.
     }
     model.addAttribute("newId", newId);
     return "legislation";
@@ -92,12 +91,9 @@ public class LegislationController {
       Legislation newLegislation = legislationRepo.save(new Legislation(title, text, sponsors));
       log.info("Created new legislation with ID {}", newLegislation.getId());
 
-      // Build Location URI to Legislation page, with new Legislaion ID as
-      // 1) anchor for browser use and
-      // 2) query string for server use.
+      // Build Location URI to Legislation page, with new ID as query string.
       String location = UriComponentsBuilder.fromUriString(request.getRequestURI())
-          .query(newLegislation.getId().toString())
-          .fragment(String.format("%d", newLegislation.getId())).toUriString();
+          .query(newLegislation.getId().toString()).toUriString();
       headers.add("Location", location);
     } catch (Exception e) {
       result = HttpStatus.BAD_REQUEST;

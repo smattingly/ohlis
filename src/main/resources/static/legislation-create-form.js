@@ -7,7 +7,7 @@
       const input = document.getElementById(inputId.toLowerCase());
       if (input.value.trim().length == 0) {
         event.preventDefault();
-        showBanner(`A value for ${inputId} is required.`, "danger");
+        createErrorBanner(`A value for ${inputId} is required.`);
         break;
       }
     }

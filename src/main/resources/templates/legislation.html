@@ -30,6 +30,25 @@
           </a>
         </div>
       </div>
+      <div
+        th:if="${newId != null}"
+        id="banner"
+        class="alert alert-success alert-dismissible fade show"
+        role="alert"
+      >
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+        <div id="banner-message">
+          Created new Legislation record with
+          <a th:href="${'#' + newId}"
+            ><span th:text="${'ID ' + newId }"></span></a
+          >.
+        </div>
+      </div>
     </header>
     <main>
       <table class="table table-striped table-bordered m1">
@@ -43,17 +62,7 @@
         </thead>
         <tbody>
           <tr th:each="bill: ${legislation}">
-            <td
-              th:unless="${newId.compareTo(bill.getId()) == 0}"
-              th:id="${bill.getId()}"
-              th:text="${bill.getId()}"
-            />
-            <td
-              th:if="${newId.compareTo(bill.getId()) == 0}"
-              th:id="${bill.getId()}"
-              th:text="${bill.getId()}"
-              th:class="table-info"
-            />
+            <td th:id="${bill.getId()}" th:text="${bill.getId()}" />
             <td th:text="${bill.getTitle()}" />
             <td th:text="${bill.getText()}" />
             <td>

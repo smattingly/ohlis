@@ -6,7 +6,7 @@
     for (const input of inputFields) {
       if (input.value.trim().length == 0) {
         event.preventDefault();
-        showBanner("All data values are required.", "danger");
+        createErrorBanner("All data values are required.");
         break;
       }
     }

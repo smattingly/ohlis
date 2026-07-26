@@ -9,6 +9,11 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <div
@@ -20,39 +25,10 @@
     >
       <button
         type="button"
-        onclick="closeBanner()"
         class="btn-close"
         data-bs-dismiss="alert"
         aria-label="Close"
       ></button>
-      <script>
-        function closeBanner() {
-          const message = document.getElementById("banner-message");
-          if (!message) return;
-          message.remove();
-          const banner = document.getElementById("banner");
-          banner.classList.remove(
-            "alert-primary",
-            "alert-secondary",
-            "alert-success",
-            "alert-danger",
-            "alert-warning",
-            "alert-info",
-            "alert-light",
-            "alert-dark",
-          );
-          banner.style.display = "none";
-        }
-
-        function showBanner(message, type) {
-          closeBanner();
-          type = type || "info";
-          const banner = document.getElementById("banner");
-          banner.innerHTML += `<div id="banner-message">${message}</div>`;
-          banner.classList.add(`alert-${type}`);
-          banner.style.display = "block";
-        }
-      </script>
     </div>
   </body>
 </html>
