@@ -46,6 +46,7 @@
               >Legislation</a
             >
             <a
+              sec:authorize="hasRole('ADMIN')"
               th:href="@{/legislators}"
               th:class="${pageName == 'legislators'} ? 'nav-link active' : 'nav-link'"
               >Legislators</a

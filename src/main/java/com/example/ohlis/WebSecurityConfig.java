@@ -17,6 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.SuppressWarnings;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Configuration
@@ -29,6 +31,8 @@ class WebSecurityConfig {
   SecurityFilterChain securityFilterChain(HttpSecurity http) {
     http
         .authorizeHttpRequests((authorize) -> authorize
+            .requestMatchers("/legislators/**").hasRole("ADMIN")
+            .requestMatchers("/legislation/**").hasAnyRole("ADMIN", "USER")
             .anyRequest().authenticated())
         .formLogin((form) -> form
             .loginPage("/login")
@@ -56,8 +60,9 @@ class WebSecurityConfig {
 
   @Bean
   UserDetailsService userDetailsService(PasswordEncoder encoder) {
-    String password = encoder.encode("password");
-    UserDetails user = User.withUsername("user").password(password).roles("USER").build();
-    return new InMemoryUserDetailsManager(user);
+    List<UserDetails> userDetails = new ArrayList<UserDetails>();
+    userDetails.add(User.withUsername("user").password(encoder.encode("user")).roles("USER").build());
+    userDetails.add(User.withUsername("admin").password(encoder.encode("admin")).roles("ADMIN").build());
+    return new InMemoryUserDetailsManager(userDetails);
   }
 }
