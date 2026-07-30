@@ -73,8 +73,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
+    env: { spring_profiles_active: "disableAuthentication" },
     command: "./gradlew bootRun",
-    url: "http://localhost:8080/legislators",
+    url: "http://localhost:8080/",
     reuseExistingServer: false,
     stdout: "pipe",
   },

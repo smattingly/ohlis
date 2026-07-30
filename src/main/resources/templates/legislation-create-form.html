@@ -5,6 +5,7 @@
     <title>Create a new Legislation record</title>
   </head>
   <body>
+    <th:block th:insert="~{fragments/general.html :: nav}"></th:block>
     <main class="container-fluid">
       <div class="row">
         <div class="col-sm-3"></div>
@@ -12,7 +13,7 @@
           <h1>Create a new Legislation record</h1>
           <p>Title and Text are required.</p>
           <div id="banner"></div>
-          <form method="POST" action="/legislation">
+          <form method="POST" action="#" th:action="@{/legislation}">
             <div>
               <label for="title">Title:</label>
               <input

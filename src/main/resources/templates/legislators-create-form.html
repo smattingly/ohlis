@@ -5,6 +5,7 @@
     <title>Create a new Legislator record</title>
   </head>
   <body>
+    <th:block th:insert="~{fragments/general.html :: nav}"></th:block>
     <main class="container-fluid">
       <div class="row">
         <div class="col-sm-3"></div>
@@ -12,7 +13,7 @@
           <h1>Create a new Legislator record</h1>
           <p>All data values are required.</p>
           <div id="banner"></div>
-          <form method="POST" action="/legislators">
+          <form method="POST" action="#" th:action="@{/legislators}">
             <div>
               <label for="firstName">First Name:</label>
               <input

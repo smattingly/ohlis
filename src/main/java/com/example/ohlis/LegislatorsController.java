@@ -33,6 +33,8 @@ public class LegislatorsController {
 
   @GetMapping()
   public String getAll(Model model, HttpServletRequest request) {
+    final String pageName = "legislators";
+    model.addAttribute("pageName", pageName);
     // List all records using template.
     List<Legislator> list = legislatorRepo.findAll();
     model.addAttribute("legislators", list);
@@ -45,7 +47,7 @@ public class LegislatorsController {
       // When query is non-existent or non-numeric, null is ok.
     }
     model.addAttribute("newId", newId);
-    return "legislators";
+    return pageName;
   }
 
   @GetMapping(path = "new")
