@@ -1,4 +1,4 @@
-package com.example.ohlis;
+package com.example.ohlis.legislators;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.ohlis;
+package com.example.ohlis.legislators;
 
 import lombok.extern.slf4j.Slf4j;
 

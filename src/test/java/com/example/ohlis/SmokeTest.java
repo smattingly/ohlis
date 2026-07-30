@@ -1,5 +1,8 @@
 package com.example.ohlis;
 
+import com.example.ohlis.legislators.LegislatorsController;
+import com.example.ohlis.legislation.LegislationController;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;

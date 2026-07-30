@@ -1,4 +1,4 @@
-package com.example.ohlis;
+package com.example.ohlis.legislators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
