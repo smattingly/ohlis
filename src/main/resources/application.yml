@@ -14,3 +14,9 @@ spring:
     hibernate.ddl-auto: create-drop
     show-sql: true
   output.ansi.enabled: always
+management:
+  Xendpoints:
+    comment: To enable all actuator endpoints, 1) remove the leading X from the preceding line and 2) remove this line.
+    web:
+      exposure:
+        include: "*"

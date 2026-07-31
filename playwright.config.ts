@@ -75,7 +75,7 @@ export default defineConfig({
   webServer: {
     env: { toggle_authentication_off: "1" },
     command: "./gradlew bootRun",
-    url: "http://localhost:8080/",
+    url: "http://localhost:8080/actuator/health",
     reuseExistingServer: false,
     stdout: "pipe",
   },

@@ -29,6 +29,7 @@ class WebSecurityConfig {
   @SuppressWarnings("null")
   SecurityFilterChain securityFilterChain(HttpSecurity http) {
     if (env.containsProperty("toggle_h2_console_on")) {
+      // Spring security will disrupt H2 console without these changes.
       log.warn("Modifying security to permit /h2-console access");
       http.authorizeHttpRequests((authorize) -> authorize
           .requestMatchers(PathRequest.toH2Console()).permitAll());
