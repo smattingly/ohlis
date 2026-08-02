@@ -42,13 +42,13 @@
             <a class="nav-link" th:href="@{/}">Home</a>
             <a
               th:href="@{/legislation}"
-              th:class="${pageName == 'legislation'} ? 'nav-link active' : 'nav-link'"
+              th:class="${activePage == 'legislation'} ? 'nav-link active' : 'nav-link'"
               >Legislation</a
             >
             <a
-              sec:authorize="hasRole('ADMIN')"
+              sec:authorize-url="/legislators"
               th:href="@{/legislators}"
-              th:class="${pageName == 'legislators'} ? 'nav-link active' : 'nav-link'"
+              th:class="${activePage == 'legislators'} ? 'nav-link active' : 'nav-link'"
               >Legislators</a
             >
             <form th:action="@{/logout}" method="post">
@@ -74,20 +74,5 @@
         </div>
       </div>
     </nav>
-
-    <div
-      th:fragment="banner"
-      id="banner"
-      style="display: none"
-      class="alert alert-dismissible fade show"
-      role="alert"
-    >
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="alert"
-        aria-label="Close"
-      ></button>
-    </div>
   </body>
 </html>

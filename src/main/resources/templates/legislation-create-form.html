@@ -12,27 +12,44 @@
         <div class="col-sm-5">
           <h1>Create a new Legislation record</h1>
           <p>Title and Text are required.</p>
-          <div id="banner"></div>
-          <form method="POST" action="#" th:action="@{/legislation}">
-            <div>
-              <label for="title">Title:</label>
+          <form
+            method="POST"
+            action="#"
+            class="needs-validation"
+            novalidate
+            th:action="@{/legislation}"
+            th:object="${legislationDto}"
+          >
+            <label for="title" class="form-label">Title:</label>
+            <div class="input-group has-validation">
               <input
-                class="form-control"
                 required
                 type="text"
                 id="title"
                 name="title"
                 autofocus
+                th:class="form-control + (${bindingResult != null && bindingResult.getFieldErrorCount('title') > 0} ? ' is-invalid' : '')"
+                th:field="*{title}"
+                aria-describedby="titleFeedback"
               />
+              <div id="titleFeedback" class="invalid-feedback">
+                Title is required.
+              </div>
             </div>
-            <div>
-              <label for="text">Text:</label>
+            <label for="text">Text:</label>
+            <div class="input-group has-validation">
               <textarea
                 class="form-control"
                 required
                 id="text"
                 name="text"
+                th:class="form-control + (${bindingResult != null && bindingResult.getFieldErrorCount('text') > 0} ? ' is-invalid' : '')"
+                th:field="*{text}"
+                aria-describedby="textFeedback"
               ></textarea>
+              <div id="textFeedback" class="invalid-feedback">
+                Text is required.
+              </div>
             </div>
             <div>
               <label for="sponsors">Sponsors:</label>
@@ -58,7 +75,6 @@
         </div>
       </div>
     </main>
-    <script src="/create-error-banner.js"></script>
-    <script src="/legislation-create-form.js"></script>
+    <script src="/validateRequiredInputs.js"></script>
   </body>
 </html>

@@ -5,22 +5,18 @@ import com.example.ohlis.legislators.LegislatorRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -28,6 +24,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/legislation")
 @Slf4j
 public class LegislationController {
+  private static final String createFormTemplate = "legislation-create-form";
+  private static final String listViewTemplate = "legislation";
 
   private final LegislationRepository legislationRepo;
   private final LegislatorRepository legislatorRepo;
@@ -38,78 +36,41 @@ public class LegislationController {
   }
 
   @GetMapping()
-  public String getAll(Model model, HttpServletRequest request) {
-    final String pageName = "legislation";
-    model.addAttribute("pageName", pageName);
+  public String getAll(Model model, @RequestParam(required = false) String newId) {
     // List all records using template.
     List<Legislation> list = legislationRepo.findAll();
     model.addAttribute("legislation", list);
 
-    // Extract newly created ID, if any, from query string so that view can use it.
-    Long newId = null;
-    try {
-      newId = Long.valueOf(request.getQueryString());
-    } catch (Exception e) {
-      // When query is non-existent or non-numeric, null is ok.
-    }
+    // TODO: check newId is valid for a recently created record; if not, ignore it
     model.addAttribute("newId", newId);
-    return pageName;
+    model.addAttribute("activePage", LegislationController.listViewTemplate);
+    return LegislationController.listViewTemplate;
   }
 
   @GetMapping(path = "new")
-  public String getCreateForm(Model model) {
+  public String getCreateForm(LegislationDto legislationDto, Model model) {
+    // Lookup Legislator data for the form's selection list.
+    model.addAttribute("sponsors", legislatorRepo.findAll());
+
     // Show the create form.
-    List<Legislator> sponsors = legislatorRepo.findAll();
-    model.addAttribute("sponsors", sponsors);
-    return "legislation-create-form";
+    return LegislationController.createFormTemplate;
   }
 
-  @PostMapping(consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public ResponseEntity<String> createLegislation(@RequestParam MultiValueMap<String, String> formData,
-      HttpServletRequest request) {
-    HttpStatus result = HttpStatus.SEE_OTHER; // PRG pattern
-    HttpHeaders headers = new HttpHeaders();
-    try {
-      // Validate the form data.
-      String title = formData.getFirst("title");
-      String text = formData.getFirst("text");
-      validateRequiredString(title);
-      validateRequiredString(text);
-
-      // Get Legislator objects for submitted sponsor ID strings.
-      List<Long> sponsorIds = new ArrayList<Long>();
-      List<String> sponsorIdStrings = formData.get("sponsors");
-      if (sponsorIdStrings != null) {
-        for (String sponsorIdString : sponsorIdStrings) {
-          sponsorIds.add(Long.valueOf(sponsorIdString));
-        }
-      }
-      List<Legislator> sponsors = (sponsorIdStrings == null ? new ArrayList<Legislator>()
-          : legislatorRepo.findByIdIn(sponsorIds));
-      int submittedSponsorCount = (sponsorIdStrings == null ? 0 : sponsorIdStrings.size());
-      if (sponsors.size() != submittedSponsorCount) {
-        // Each submitted sponsor ID should be for a valid Legislator.
-        throw new Exception();
-      }
-
-      // Create new Legislation record, and any associated sponsorship records.
-      Legislation newLegislation = legislationRepo.save(new Legislation(title, text, sponsors));
-      log.info("Created new legislation with ID {}", newLegislation.getId());
-
-      // Build Location URI to Legislation page, with new ID as query string.
-      String location = UriComponentsBuilder.fromUriString(request.getRequestURI())
-          .query(newLegislation.getId().toString()).toUriString();
-      headers.add("Location", location);
-    } catch (Exception e) {
-      result = HttpStatus.BAD_REQUEST;
+  @PostMapping()
+  public ModelAndView createNewRecord(@Valid LegislationDto legislationDto, BindingResult bindingResult,
+      ModelMap model) {
+    // If validation fails, display form with data and feedback.
+    if (bindingResult.hasErrors()) {
+      model.addAttribute("bindingResult", bindingResult);
+      // Lookup Legislator data for the form's selection list.
+      model.addAttribute("sponsors", legislatorRepo.findAll());
+      return new ModelAndView(LegislationController.createFormTemplate, model, HttpStatus.BAD_REQUEST);
     }
 
-    return new ResponseEntity<String>(result.getReasonPhrase(), headers, result);
-  }
-
-  private void validateRequiredString(String value) throws Exception {
-    if (value == null || value.trim().length() == 0) {
-      throw new Exception("A required value was missing.");
-    }
+    Legislation newLegislation = legislationRepo
+        .save(new Legislation(legislationDto.getTitle(), legislationDto.getText(), legislationDto.getSponsors()));
+    log.info("Created new legislator with ID {}", newLegislation.getId());
+    model.addAttribute("newId", newLegislation.getId());
+    return new ModelAndView(String.format("redirect:/%s", LegislationController.listViewTemplate), model);
   }
 }

@@ -39,12 +39,6 @@ public class Legislation {
   protected Legislation() {
   }
 
-  /*
-   * options, assuming that spring will take over with a list of tor objects
-   * - use tor repo here to populate list from ids
-   * - use tor repo here to get list from specified ids
-   * - previous approaches, in ion controller
-   */
   public Legislation(String title, String text, List<Legislator> sponsors) {
     this.title = title;
     this.text = text;

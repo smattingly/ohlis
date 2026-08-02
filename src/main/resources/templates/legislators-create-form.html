@@ -12,38 +12,61 @@
         <div class="col-sm-5">
           <h1>Create a new Legislator record</h1>
           <p>All data values are required.</p>
-          <div id="banner"></div>
-          <form method="POST" action="#" th:action="@{/legislators}">
-            <div>
-              <label for="firstName">First Name:</label>
+          <form
+            method="POST"
+            action="#"
+            class="needs-validation"
+            novalidate
+            th:action="@{/legislators}"
+            th:object="${legislatorDto}"
+          >
+            <label for="firstName" class="form-label">First Name:</label>
+            <div class="input-group has-validation">
               <input
-                class="form-control"
                 required
                 type="text"
                 id="firstName"
                 name="firstName"
                 autofocus
+                th:class="form-control + (${bindingResult != null && bindingResult.getFieldErrorCount('firstName') > 0} ? ' is-invalid' : '')"
+                th:field="*{firstName}"
+                aria-describedby="firstNameFeedback"
               />
+              <div id="firstNameFeedback" class="invalid-feedback">
+                First Name is required.
+              </div>
             </div>
-            <div>
-              <label for="lastName">Last Name:</label>
+            <label for="lastName">Last Name:</label>
+            <div class="input-group has-validation">
               <input
                 class="form-control"
                 required
                 type="text"
                 id="lastName"
                 name="lastName"
+                th:class="form-control + (${bindingResult != null && bindingResult.getFieldErrorCount('lastName') > 0} ? ' is-invalid' : '')"
+                th:field="*{lastName}"
+                aria-describedby="lastNameFeedback"
               />
+              <div id="lastNameFeedback" class="invalid-feedback">
+                Last Name is required.
+              </div>
             </div>
-            <div>
-              <label for="hometown">Hometown:</label>
+            <label for="hometown">Hometown:</label>
+            <div class="input-group has-validation">
               <input
                 class="form-control"
                 required
                 type="text"
                 id="hometown"
                 name="hometown"
+                th:class="form-control + (${bindingResult != null && bindingResult.getFieldErrorCount('hometown') > 0} ? ' is-invalid' : '')"
+                th:field="*{hometown}"
+                aria-describedby="hometownFeedback"
               />
+              <div id="hometownFeedback" class="invalid-feedback">
+                Hometown is required.
+              </div>
             </div>
             <div class="text-right">
               <button id="submit" type="submit" class="btn btn-dark">
@@ -54,7 +77,6 @@
         </div>
       </div>
     </main>
-    <script src="/create-error-banner.js"></script>
-    <script src="/legislators-create-form.js"></script>
+    <script src="/validateRequiredInputs.js"></script>
   </body>
 </html>

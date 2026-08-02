@@ -4,19 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.servlet.ModelAndView;
 
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -24,6 +22,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/legislators")
 @Slf4j
 public class LegislatorsController {
+  private static final String createFormTemplate = "legislators-create-form";
+  private static final String listViewTemplate = "legislators";
 
   private final LegislatorRepository legislatorRepo;
 
@@ -32,62 +32,36 @@ public class LegislatorsController {
   }
 
   @GetMapping()
-  public String getAll(Model model, HttpServletRequest request) {
-    final String pageName = "legislators";
-    model.addAttribute("pageName", pageName);
+  public String getAll(Model model, @RequestParam(required = false) String newId) {
     // List all records using template.
     List<Legislator> list = legislatorRepo.findAll();
     model.addAttribute("legislators", list);
 
-    // Extract newly created ID, if any, from query string so that view can use it.
-    Long newId = null;
-    try {
-      newId = Long.valueOf(request.getQueryString());
-    } catch (Exception e) {
-      // When query is non-existent or non-numeric, null is ok.
-    }
+    // TODO: check newId is valid for a recently created record; if not, ignore it
     model.addAttribute("newId", newId);
-    return pageName;
+    model.addAttribute("activePage", LegislatorsController.listViewTemplate);
+    return LegislatorsController.listViewTemplate;
   }
 
   @GetMapping(path = "new")
-  public String getCreateForm() {
+  public String getCreateForm(LegislatorDto legislatorDto) {
     // Show the create form.
-    return "legislators-create-form";
+    return LegislatorsController.createFormTemplate;
   }
 
-  @PostMapping(consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public ResponseEntity<String> createLegislator(@RequestParam MultiValueMap<String, String> formData,
-      HttpServletRequest request) {
-    HttpStatus result = HttpStatus.SEE_OTHER; // PRG pattern
-    HttpHeaders headers = new HttpHeaders();
-    try {
-      // Validate the form data.
-      String firstName = formData.getFirst("firstName");
-      String lastName = formData.getFirst("lastName");
-      String hometown = formData.getFirst("hometown");
-      validateRequiredString(firstName);
-      validateRequiredString(lastName);
-      validateRequiredString(hometown);
-
-      // Create new Legislator record.
-      Legislator newLegislator = legislatorRepo.save(new Legislator(firstName, lastName, hometown));
-      log.info("Created new legislator with ID {}", newLegislator.getId());
-
-      // Build Location URI to Legislation page, with new ID as query string.
-      String location = UriComponentsBuilder.fromUriString(request.getRequestURI())
-          .query(newLegislator.getId().toString()).toUriString();
-      headers.add("Location", location);
-    } catch (Exception e) {
-      result = HttpStatus.BAD_REQUEST;
+  @PostMapping()
+  public ModelAndView createNewRecord(@Valid LegislatorDto legislatorDto, BindingResult bindingResult, ModelMap model) {
+    // If validation fails, display form with data and feedback.
+    if (bindingResult.hasErrors()) {
+      model.addAttribute("bindingResult", bindingResult);
+      return new ModelAndView(LegislatorsController.createFormTemplate, model, HttpStatus.BAD_REQUEST);
     }
 
-    return new ResponseEntity<String>(result.getReasonPhrase(), headers, result);
-  }
-
-  private void validateRequiredString(String value) throws Exception {
-    if (value == null || value.trim().length() == 0) {
-      throw new Exception("A required value was missing.");
-    }
+    // Save new record, then redirect to list screen.
+    Legislator newLegislator = legislatorRepo
+        .save(new Legislator(legislatorDto.getFirstName(), legislatorDto.getLastName(), legislatorDto.getHometown()));
+    log.info("Created new legislator with ID {}", newLegislator.getId());
+    model.addAttribute("newId", newLegislator.getId());
+    return new ModelAndView(String.format("redirect:/%s", LegislatorsController.listViewTemplate), model);
   }
 }
