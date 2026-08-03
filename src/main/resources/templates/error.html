@@ -1,13 +1,12 @@
 <!doctype html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>Error</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <th:block th:insert="~{fragments/general.html :: head}"></th:block>
+    <title>500 Internal Server Error</title>
   </head>
   <body>
-    <main>
-      <h1>Oops!</h1>
-      <p>Something went wrong. We apologize for the inconvenience.</p>
+    <main class="ms-3">
+      <h1>500 Internal Server Error</h1>
     </main>
   </body>
 </html>

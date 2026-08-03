@@ -1,13 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>404 Not found</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <th:block th:insert="~{fragments/general.html :: head}"></th:block>
+    <title>404 Not Found</title>
   </head>
   <body>
-    <main>
-      <h1>404 Not found</h1>
-      <p>The requested page is not available.</p>
+    <main class="ms-3">
+      <h1>404 Not Found</h1>
     </main>
   </body>
 </html>

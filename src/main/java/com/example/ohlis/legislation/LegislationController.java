@@ -1,6 +1,5 @@
 package com.example.ohlis.legislation;
 
-import com.example.ohlis.legislators.Legislator;
 import com.example.ohlis.legislators.LegislatorRepository;
 
 import lombok.extern.slf4j.Slf4j;
