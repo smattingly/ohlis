@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npm run test:client-validation; npm run test:server-validation",
+    "test:client-validation": "npx playwright test",
+    "test:server-validation": "toggle_client_validation_off=1 npx playwright test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
