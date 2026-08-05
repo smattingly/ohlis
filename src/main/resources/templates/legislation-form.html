@@ -2,7 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <th:block th:insert="~{fragments/general.html :: head}"></th:block>
-    <title>Create a new Legislation record</title>
+    <title
+      th:text="(${id == null} ? 'Create a new' : 'Edit') + ' Legislation record'"
+    ></title>
   </head>
   <body>
     <th:block th:insert="~{fragments/general.html :: nav}"></th:block>
@@ -10,15 +12,17 @@
       <div class="row">
         <div class="col-sm-3"></div>
         <div class="col-sm-5">
-          <h1>Create a new Legislation record</h1>
+          <h1
+            th:text="(${id == null} ? 'Create a new' : 'Edit') + ' Legislation record'"
+          ></h1>
           <p>Title and Text are required.</p>
           <form
-            method="POST"
+            th:method="${id == null} ? 'post' : 'put'"
+            th:action="${id == null} ? @{/legislation} : @{/legislation/} + ${id}"
             action="#"
             class="needs-validation"
             novalidate
-            th:action="@{/legislation}"
-            th:object="${legislationDto}"
+            th:object="${legislation}"
           >
             <label for="title" class="form-label">Title:</label>
             <div class="input-group has-validation">
@@ -58,18 +62,22 @@
                 id="sponsors"
                 name="sponsors"
                 multiple
+                th:field="*{sponsors}"
               >
                 <option
                   th:each="sponsor: ${sponsors}"
                   th:value="${sponsor.getId()}"
-                  th:text="${sponsor.getFullName()}"
+                  th:text="${sponsor.toString()}"
                 />
               </select>
             </div>
             <div class="text-right">
-              <button id="submit" type="submit" class="btn btn-dark">
-                Create
-              </button>
+              <button
+                id="submit"
+                type="submit"
+                class="btn btn-dark"
+                th:text="${id == null} ? 'Create' : 'Update'"
+              ></button>
             </div>
           </form>
         </div>

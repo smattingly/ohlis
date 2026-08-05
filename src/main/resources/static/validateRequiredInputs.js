@@ -1,9 +1,7 @@
 // Use Bootstrap CSS classes to mark validity for required inputs.
 
-(async () => {
-  const cookie = await cookieStore.get("toggle_client_validation_off");
-
-  if (cookie) {
+(() => {
+  if (document.cookie.indexOf("toggle_client_validation_off=") > 0) {
     console.info("Client side validation is disabled by feature flag.");
     return;
   }

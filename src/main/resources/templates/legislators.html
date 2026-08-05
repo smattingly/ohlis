@@ -28,9 +28,9 @@
         </div>
       </div>
       <div
-        th:if="${newId != null}"
+        th:if="${op != null}"
         id="banner"
-        class="alert alert-success alert-dismissible fade show"
+        th:class="|alert alert-dismissible fade show ${op == 'deleteFail' ? 'alert-danger' : 'alert-success'}|"
         role="alert"
       >
         <button
@@ -39,11 +39,22 @@
           data-bs-dismiss="alert"
           aria-label="Close"
         ></button>
-        <div id="banner-message">
-          Created new Legislator record with
-          <a th:href="${'#' + newId}"
-            ><span th:text="${'ID ' + newId }"></span></a
-          >.
+        <div id="banner-message" th:switch="${op}">
+          <span th:case="'create'">
+            Created new Legislator record with
+            <a th:href="|#${record}|"><span th:text="|ID ${record}|" /></a>.
+          </span>
+          <span th:case="'update'">
+            Updated Legislator record with
+            <a th:href="|#${record}|"><span th:text="|ID ${record}|" /></a>.
+          </span>
+          <span th:case="'delete'">
+            Deleted Legislator record with ID <span th:text="${record}" />.
+          </span>
+          <span th:case="'deleteFail'">
+            Unable to delete Legislator record with ID
+            <span th:text="${record}" />.
+          </span>
         </div>
       </div>
     </header>
@@ -51,7 +62,7 @@
       <table class="table table-striped table-bordered m1">
         <thead>
           <tr>
-            <th>ID</th>
+            <th style="width: 125px">ID</th>
             <th>First name</th>
             <th>Last name</th>
             <th>Hometown</th>
@@ -59,13 +70,55 @@
         </thead>
         <tbody>
           <tr th:each="legislator: ${legislators}">
-            <td th:id="${legislator.getId()}" th:text="${legislator.getId()}" />
+            <td th:id="${legislator.getId()}">
+              <span th:text="${legislator.getId()}" />
+              <span>&nbsp;</span>
+              <a th:href="|@{/legislators}/${legislator.getId()}|"
+                ><span
+                  class="fa fa-pencil"
+                  style="font-size: 18px; color: black"
+                  data-toggle="tooltip"
+                  data-placement="right"
+                  th:title="|Edit Legislator record ID ${legislator.getId()}|"
+                ></span
+              ></a>
+              <form
+                th:id="|deleteForm${legislator.getId()}"
+                th:method="delete"
+                th:action="|@{/legislators}/${legislator.getId()}|"
+                style="display: inline"
+              >
+                <button
+                  class="delete-button"
+                  type="submit"
+                  style="
+                    background: none;
+                    border: none;
+                    outline: none;
+                    box-shadow: none;
+                  "
+                >
+                  <span
+                    class="fa fa-trash"
+                    style="font-size: 18px; color: black"
+                    data-toggle="tooltip"
+                    data-placement="right"
+                    th:title="|Delete Legislator record ID ${legislator.getId()}|"
+                    th:data-delete-form="|deleteForm${legislator.getId()}|"
+                    aria-label="Delete"
+                  />
+                </button>
+              </form>
+            </td>
             <td th:text="${legislator.getFirstName()}" />
             <td th:text="${legislator.getLastName()}" />
             <td th:text="${legislator.getHometown()}" />
           </tr>
         </tbody>
       </table>
+      <th:block
+        th:insert="~{fragments/general.html :: confirmation-dialog}"
+      ></th:block>
     </main>
   </body>
 </html>

@@ -28,9 +28,9 @@
         </div>
       </div>
       <div
-        th:if="${newId != null}"
+        th:if="${op != null}"
         id="banner"
-        class="alert alert-success alert-dismissible fade show"
+        th:class="|alert alert-dismissible fade show ${op == 'deleteFail' ? 'alert-danger' : 'alert-success'}|"
         role="alert"
       >
         <button
@@ -39,19 +39,29 @@
           data-bs-dismiss="alert"
           aria-label="Close"
         ></button>
-        <div id="banner-message">
-          Created new Legislation record with
-          <a th:href="${'#' + newId}"
-            ><span th:text="${'ID ' + newId }"></span></a
-          >.
+        <div id="banner-message" th:switch="${op}">
+          <span th:case="'create'">
+            Created new Legislation record with
+            <a th:href="|#${record}|"><span th:text="|ID ${record}|" /></a>.
+          </span>
+          <span th:case="'update'">
+            Updated Legislation record with
+            <a th:href="|#${record}|"><span th:text="|ID ${record}|" /></a>.
+          </span>
+          <span th:case="'delete'">
+            Deleted Legislation record with ID <span th:text="${record}" />.
+          </span>
+          <span th:case="'deleteFail'">
+            Unable to delete Legislation record with ID
+            <span th:text="${record}" />.
+          </span>
         </div>
-      </div>
     </header>
     <main class="container-fluid">
       <table class="table table-striped table-bordered m1">
         <thead>
           <tr>
-            <th>ID</th>
+            <th style="width: 125px">ID</th>
             <th>Title</th>
             <th>Text</th>
             <th>Sponsors</th>
@@ -59,24 +69,55 @@
         </thead>
         <tbody>
           <tr th:each="bill: ${legislation}">
-            <td th:id="${bill.getId()}" th:text="${bill.getId()}" />
+            <td th:id="${bill.getId()}">
+              <span th:text="${bill.getId()}" />
+              <span>&nbsp;</span>
+              <a th:href="|@{/legislation}/${bill.getId()}|"
+                ><span
+                  class="fa fa-pencil"
+                  style="font-size: 18px; color: black"
+                  data-toggle="tooltip"
+                  data-placement="right"
+                  th:title="|Edit record ID ${bill.getId()}|"
+                ></span
+              ></a>
+              <form
+                th:id="|deleteForm${bill.getId()}"
+                th:method="delete"
+                th:action="|@{/legislation}/${bill.getId()}|"
+                style="display: inline"
+              >
+                <button
+                  class="delete-button"
+                  type="submit"
+                  style="
+                    background: none;
+                    border: none;
+                    outline: none;
+                    box-shadow: none;
+                  "
+                >
+                  <span
+                    class="fa fa-trash"
+                    style="font-size: 18px; color: black"
+                    data-toggle="tooltip"
+                    data-placement="right"
+                    th:title="|Delete Legislation record ID ${bill.getId()}|"
+                    th:data-delete-form="|deleteForm${bill.getId()}|"
+                    aria-label="Delete"
+                  />
+                </button>
+              </form>
+            </td>
             <td th:text="${bill.getTitle()}" />
             <td th:text="${bill.getText()}" />
-            <td>
-              <span th:each="sponsor: ${bill.getSponsors()}">
-                <span
-                  th:unless="${sponsor == bill.getSponsors().getLast()}"
-                  th:text="${sponsor.getFullName() + ', '}"
-                />
-                <span
-                  th:if="${sponsor == bill.getSponsors().getLast()}"
-                  th:text="${sponsor.getFullName()}"
-                />
-              </span>
-            </td>
+            <td th:text="${bill.getSponsorsString()}"></td>
           </tr>
         </tbody>
       </table>
+      <th:block
+        th:insert="~{fragments/general.html :: confirmation-dialog}"
+      ></th:block>
     </main>
   </body>
 </html>

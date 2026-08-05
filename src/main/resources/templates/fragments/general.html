@@ -74,5 +74,32 @@
         </div>
       </div>
     </nav>
+
+    <div
+      th:fragment="confirmation-dialog"
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+      aria-label="Confirmation modal dialog"
+      aria-hidden="true"
+      id="confirmation-modal"
+    >
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-body">
+            <p id="modal-body-text">Are you sure?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="modal-btn-yes">
+              Yes
+            </button>
+            <button type="button" class="btn btn-primary" id="modal-btn-no">
+              No
+            </button>
+          </div>
+        </div>
+      </div>
+      <script src="/confirmDelete.js"></script>
+    </div>
   </body>
 </html>
