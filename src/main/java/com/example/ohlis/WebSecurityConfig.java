@@ -42,6 +42,7 @@ class WebSecurityConfig {
 
     if (env.containsProperty("toggle_authentication_off")) {
       log.warn("Disabling authentication!");
+      http.csrf((config) -> config.disable());
       http
           .authorizeHttpRequests((authorize) -> authorize
               .anyRequest().permitAll());
