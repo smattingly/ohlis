@@ -73,10 +73,13 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    env: { toggle_authentication_off: "1" },
-    command: "./gradlew bootRun",
+    env: {
+      SPRING_PROFILES_ACTIVE:
+        process.env.SPRING_PROFILES_ACTIVE || "disable-authentication",
+    },
+    command: "docker compose -f ./docker-compose.yml up --build",
+    gracefulShutdown: { signal: "SIGTERM", timeout: 500 },
     url: "http://localhost:8080/actuator/health",
     reuseExistingServer: false,
-    stdout: "pipe",
   },
 });

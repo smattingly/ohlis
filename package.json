@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test:client-validation && npm run test:server-validation",
-    "test:client-validation": "npx playwright test",
-    "test:server-validation": "toggle_client_validation_off=1 npx playwright test"
+    "test:client-validation": "npx playwright test && docker compose down",
+    "test:server-validation": "SPRING_PROFILES_ACTIVE=disable-authentication,toggle_client_validation_off npx playwright test && docker compose down"
   },
   "keywords": [],
   "author": "",

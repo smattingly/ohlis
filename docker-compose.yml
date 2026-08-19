@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:15
+    container_name: ohlis-db
+    restart: always
+    entrypoint: "/bin/bash"
+    command: -c "exec /usr/local/bin/docker-entrypoint.sh postgres"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8"
+    volumes:
+      - "./docker/db/postgres/init:/docker-entrypoint-initdb.d:ro"
+      - "./docker/db/postgres/data:/var/lib/postgresql/data"
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    stop_grace_period: 60s
+
+  app:
+    container_name: ohlis-app 
+    build:
+      context: .
+      dockerfile: Dockerfile-local
+      args:
+        MAVEN_OPTS: "${MAVEN_OPTS:-}"
+    read_only: true
+    environment:
+      SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE:-development,docker}"
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:-}"
+    volumes:
+      - type: tmpfs
+        target: /tmp
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8080:8080"

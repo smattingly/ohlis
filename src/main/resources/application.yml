@@ -1,3 +1,8 @@
+spring.profiles.group:
+  disable-authentication:
+  - "development"
+  - "docker"
+
 debug: false
 spring:
   mvc:
@@ -5,21 +10,21 @@ spring:
       filter:
         enabled: true
   datasource:
-    url: jdbc:h2:mem:sampledb
-    username: u
-    password: p
-    driverClassName: org.h2.Driver
-  h2:
-    console:
-      enabled: true
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://db:5432/ohlis
   jpa:
     generate-ddl: true
     hibernate.ddl-auto: create-drop
     show-sql: true
   output.ansi.enabled: always
+---
+spring:
+  config:
+    activate:
+      on-profile: actuator
 management:
-  Xendpoints:
-    comment: To enable all actuator endpoints, 1) remove the leading X from the preceding line and 2) remove this line.
+  endpoints:
     web:
       exposure:
         include: "*"

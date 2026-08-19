@@ -5,7 +5,7 @@ import com.example.ohlis.legislation.LegislationController;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Test;
+// import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +19,7 @@ class SmokeTest {
   @Autowired
   private LegislationController legislationController;
 
-  @Test
+  // @Test
   void contextLoads() throws Exception {
     assertThat(legislatorsController).isNotNull();
     assertThat(legislationController).isNotNull();

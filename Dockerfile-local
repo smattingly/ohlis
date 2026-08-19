@@ -1,0 +1,19 @@
+#syntax=docker/dockerfile:1.7-labs
+
+# build and package the app jar
+FROM eclipse-temurin:21-jdk-alpine AS app-builder 
+ARG MAVEN_OPTS=""
+WORKDIR /build/
+COPY mvnw ./
+COPY .mvn/wrapper/ .mvn/wrapper/
+COPY pom.xml ./
+RUN ./mvnw dependency:resolve
+COPY src/ /build/src/
+RUN ./mvnw package
+
+# deploy the jar
+FROM eclipse-temurin:21-jre-alpine
+COPY --from=app-builder /build/target/ohlis-0.0.1-SNAPSHOT.jar /app.jar
+RUN adduser --system --no-create-home jar-runner
+USER jar-runner
+CMD ["java", "-jar", "/app.jar"]

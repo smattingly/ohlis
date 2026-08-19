@@ -10,14 +10,11 @@ Thumbs.db
 
 # Build Artifacts
 
-.gradle/
 build/
 target/
 bin/
 dependency-reduced-pom.xml
 *.jar
-!gradle/wrapper/gradle-wrapper.jar
-!.mvn/wrapper/maven-wrapper.jar
 
 # Eclipse Project Files
 
@@ -39,5 +36,7 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+/docker/db/postgres/data
 
 _notes.md
