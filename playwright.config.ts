@@ -81,6 +81,6 @@ export default defineConfig({
     gracefulShutdown: { signal: "SIGTERM", timeout: 500 },
     url: "http://localhost:8080/actuator/health",
     reuseExistingServer: false,
-    timeout: 120_000,
+    timeout: 180_000,
   },
 });
