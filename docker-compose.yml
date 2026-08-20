@@ -31,7 +31,7 @@ services:
         MAVEN_OPTS: "${MAVEN_OPTS:-}"
     read_only: true
     environment:
-      SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE:-development,docker}"
+      SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE:-}"
       JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:-}"
     volumes:
       - type: tmpfs

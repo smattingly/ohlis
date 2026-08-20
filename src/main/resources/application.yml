@@ -1,8 +1,3 @@
-spring.profiles.group:
-  disable-authentication:
-  - "development"
-  - "docker"
-
 debug: false
 spring:
   mvc:
@@ -18,6 +13,13 @@ spring:
     hibernate.ddl-auto: create-drop
     show-sql: true
   output.ansi.enabled: always
+---
+spring:
+  config:
+    activate:
+      on-profile: local 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ohlis
 ---
 spring:
   config:
