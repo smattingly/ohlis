@@ -1,13 +1,13 @@
 import { test, expect } from "@playwright/test";
 
-test("Given incomplete data, When create is attempted, Then error is shown.", async ({
+test("Given incomplete data, When create is attempted, Then input(s) are invalidated.", async ({
   page,
 }) => {
   const url = "legislators/new";
 
   // Bootstrap uses the following CSS class to mark form inputs that fail data validation.
   // Test for this rather than visibility of error messages, because some WebKit versions
-  // seemed to generate false positives due to weird rendering.
+  // failed visibility check due to weird rendering.
   const invalidDataInput = "is-invalid";
 
   // Nothing entered
