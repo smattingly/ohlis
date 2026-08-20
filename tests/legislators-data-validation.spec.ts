@@ -7,7 +7,7 @@ test("Given incomplete data, When create is attempted, Then error is shown.", as
 
   // Nothing entered
   await page.goto(url);
-  await page.getByRole("button", { name: "Create" }).click();
+  await page.locator("#submit").click();
   await expect(page.locator("#firstNameFeedback")).toBeVisible();
   await expect(page.locator("#lastNameFeedback")).toBeVisible();
   await expect(page.locator("#hometownFeedback")).toBeVisible();
@@ -15,7 +15,7 @@ test("Given incomplete data, When create is attempted, Then error is shown.", as
   // First name only entered.
   await page.goto(url);
   await page.getByRole("textbox", { name: "First Name:" }).fill("first");
-  await page.getByRole("button", { name: "Create" }).click();
+  await page.locator("#submit").click();
   await expect(page.locator("#firstNameFeedback")).not.toBeVisible();
   await expect(page.locator("#lastNameFeedback")).toBeVisible();
   await expect(page.locator("#hometownFeedback")).toBeVisible();
@@ -23,7 +23,7 @@ test("Given incomplete data, When create is attempted, Then error is shown.", as
   // Last name only entered.
   await page.goto(url);
   await page.getByRole("textbox", { name: "Last Name:" }).fill("last");
-  await page.getByRole("button", { name: "Create" }).click();
+  await page.locator("#submit").click();
   await expect(page.locator("#firstNameFeedback")).toBeVisible();
   await expect(page.locator("#lastNameFeedback")).not.toBeVisible();
   await expect(page.locator("#hometownFeedback")).toBeVisible();
@@ -31,7 +31,7 @@ test("Given incomplete data, When create is attempted, Then error is shown.", as
   // Hometown only entered.
   await page.goto(url);
   await page.getByRole("textbox", { name: "Hometown:" }).fill("hometown");
-  await page.getByRole("button", { name: "Create" }).click();
+  await page.locator("#submit").click();
   await expect(page.locator("#firstNameFeedback")).toBeVisible();
   await expect(page.locator("#lastNameFeedback")).toBeVisible();
   await expect(page.locator("#hometownFeedback")).not.toBeVisible();
@@ -40,7 +40,7 @@ test("Given incomplete data, When create is attempted, Then error is shown.", as
   await page.goto(url);
   await page.getByRole("textbox", { name: "First Name:" }).fill("first");
   await page.getByRole("textbox", { name: "Last Name:" }).fill("last");
-  await page.getByRole("button", { name: "Create" }).click();
+  await page.locator("#submit").click();
   await expect(page.locator("#firstNameFeedback")).not.toBeVisible();
   await expect(page.locator("#lastNameFeedback")).not.toBeVisible();
   await expect(page.locator("#hometownFeedback")).toBeVisible();
@@ -49,7 +49,7 @@ test("Given incomplete data, When create is attempted, Then error is shown.", as
   await page.goto(url);
   await page.getByRole("textbox", { name: "First Name:" }).fill("first");
   await page.getByRole("textbox", { name: "Hometown:" }).fill("hometown");
-  await page.getByRole("button", { name: "Create" }).click();
+  await page.locator("#submit").click();
   await expect(page.locator("#firstNameFeedback")).not.toBeVisible();
   await expect(page.locator("#lastNameFeedback")).toBeVisible();
   await expect(page.locator("#hometownFeedback")).not.toBeVisible();
@@ -58,7 +58,7 @@ test("Given incomplete data, When create is attempted, Then error is shown.", as
   await page.goto(url);
   await page.getByRole("textbox", { name: "Last Name:" }).fill("last");
   await page.getByRole("textbox", { name: "Hometown:" }).fill("hometown");
-  await page.getByRole("button", { name: "Create" }).click();
+  await page.locator("#submit").click();
   await expect(page.locator("#firstNameFeedback")).toBeVisible();
   await expect(page.locator("#lastNameFeedback")).not.toBeVisible();
   await expect(page.locator("#hometownFeedback")).not.toBeVisible();
