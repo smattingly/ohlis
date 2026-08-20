@@ -23,6 +23,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "list",
+  expect: { timeout: 10_000 },
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -81,6 +82,6 @@ export default defineConfig({
     gracefulShutdown: { signal: "SIGTERM", timeout: 500 },
     url: "http://localhost:8080/actuator/health",
     reuseExistingServer: false,
-    timeout: 120000,
+    timeout: 120_000,
   },
 });
